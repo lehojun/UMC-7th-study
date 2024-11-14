@@ -51,6 +51,9 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 320, unique = true)
     private String email;
 
+    @Column(length = 20, unique = true)
+    private String phoneNum;
+
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
