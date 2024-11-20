@@ -24,4 +24,9 @@
       <module name="spring.querydsl" target="17" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring.main" options="" />
+    </option>
+  </component>
 </project>
