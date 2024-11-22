@@ -1,0 +1,94 @@
+1. 내가 진행중, 진행 완료한 미션 모아서 보는 쿼리(페이징 포함)
+//미션 상태(진행중,진행 완료)에 따라 동적으로 변하는 쿼리
+
+public class MissionRepositoryImpl implements MissionCustomRepository {
+
+private final JPAQueryFactory jpaQueryFactory;
+
+@Override
+public List<member_mission> getMyMission(int memberId, String status) {
+BooleanBuilder predicate = new BooleanBuilder();
+predicate.and(member_mission.memberId.eq(memberId));
+
+
+//memberId는 무조건 받아야함, 못 받을 경우 서비스에서 에러 처리
+if(status == "ing") { //진행 미션일 경우 
+	predicate.and(member_mission.status.eq("ing"));
+}
+if(stautse == "ed") { //완료 미션일 경우
+	predicate.and(member_mission.status.eq("ed"));	
+}
+
+List<member_mission> result = queryFactory
+						.select(member_mission)
+						.from(member_mission)
+						.where(predicate)
+						.fetch();
+					
+return result;
+	}
+}
+
+2. 리뷰 작성하는 쿼리 * 사진의 경우는 일단 배제
+public class ReviewRepositoryImpl implements ReviewCustomRepository {
+
+private final JPAQueryFactory jpaQueryFactory;
+
+@Override
+public List<review> writeReview(int memberId, int storeId, int score, String content, String reviewImage) {
+
+List<Review> review = new Review();
+review.setMemberId(memberId);
+review.setStoreId(storeId);
+review.setContent(content);
+review.setScore(score);
+review.setReviewImage(reviewImage);
+
+return review;
+		}
+}
+
+3.홈 화면 쿼리 (현재 선택 된 지역에서 도전이 가능한 미션 목록, 페이징 포함)
+public class MissionRepositoryImpl implements MissionCustomRepository {
+
+private final JPAQueryFactory jpaQueryFactory;
+
+
+//미션 개수 조회하는 쿼리
+@Override
+public optional<member_mission> myMissionCount(int memberId) {
+
+return jpaQueryFactory
+				.selectFrom(member_mission.count())
+				.where(member_mission.memberId.eq(memberId) and 
+								member_mission.status.eq("ed"))
+				.fetch();
+}
+
+//my mission 조회 커리
+@Override
+public List<member_mission> myMissionList(int memberId) {
+
+List<member_mission> result = queryFactory
+						.select(member_mission)
+						.from(member_mission)
+						.where(member_mission.status.eq("ing"))
+						.fetch();
+						}
+}
+
+4.마이 페이지 화면 쿼리
+
+public class MemberepositoryImpl implements MemberCustomRepository {
+
+private final JPAQueryFactory jpaQueryFactory;
+
+@Override
+public List<mission> getMember(int memberId) {
+
+return jpaQueryFactory
+				.selectFrom(member)
+				.where(member.memberId.eq(memberId))
+				.fetch();
+	}
+}
