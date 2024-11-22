@@ -19,7 +19,7 @@ public class SpringBootApplication {
         return args -> {
             StoreQueryService storeService = context.getBean(StoreQueryService.class);
 
-            // 파라미터 값 설
+            // 파라미터 값 설dd
             String name = "요아정";
             Float score = 4.0f;
 
