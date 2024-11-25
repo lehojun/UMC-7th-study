@@ -9,7 +9,6 @@ import umc.spring.domain.enums.SocialType;
 import umc.spring.domain.mapping.MemberAgree;
 import umc.spring.domain.mapping.MemberMission;
 import umc.spring.domain.mapping.MemberPrefer;
-import jakarta.persistence.Id;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -44,11 +43,10 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(15) DEFAULT 'ACTIVE'")
-    private MemberStatus status;
+    private MemberStatus memberStatus;
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
     private String email;
 
     private Integer point;
@@ -64,8 +62,4 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Alarm> alarmList = new ArrayList<>();
-
 }

@@ -19,6 +19,7 @@ public class MemberMission extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'INACTIVE'")
     private MissionStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,4 +29,5 @@ public class MemberMission extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
+
 }
