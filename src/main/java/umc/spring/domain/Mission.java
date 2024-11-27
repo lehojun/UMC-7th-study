@@ -7,11 +7,13 @@ import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.mapping.MemberMission;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
