@@ -23,10 +23,10 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     @Transactional
     public Store addStore(StoreRequestDTO.AddDto request) {
         Store store = StoreConverter.toStore(request);
-        Long region = request.getRegionId();
+        Long regionId = request.getRegionId();
 
-        if(region != null) {
-            Region foundRegion = regionRepository.findById(region)
+        if(regionId != null) {
+            Region foundRegion = regionRepository.findById(regionId)
                     .orElseThrow(() -> new RegionHandler(ErrorStatus.REGION_NOT_FOUND));
             store.setRegion(foundRegion);
         }
