@@ -3,7 +3,6 @@ package umc.spring.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.FoodCategoryHandler;
 import umc.spring.converter.MemberConverter;
@@ -13,7 +12,7 @@ import umc.spring.domain.Member;
 import umc.spring.domain.mapping.MemberPrefer;
 import umc.spring.repository.FoodCategoryRepository.FoodCategoryRepository;
 import umc.spring.repository.MemberRepository.MemberRepository;
-import umc.spring.web.dto.MemberRequestDTO;
+import umc.spring.web.dto.MemberDTO.MemberRequestDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

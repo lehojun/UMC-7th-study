@@ -1,21 +1,21 @@
-package umc.spring.web.dto;
+package umc.spring.web.dto.StoreDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class MemberResponseDTO {
+public class StoreResponseDTO {
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class JoinResultDTO{
-        Long memberId;
+    public static class AddResultDTO{
+        Long storeId;
+        Long regionId;
         LocalDateTime createdAt;
     }
 }
