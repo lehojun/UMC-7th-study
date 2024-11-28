@@ -2,6 +2,7 @@ package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.spring.domain.FoodCategory;
 import umc.spring.domain.Member;
 import umc.spring.domain.Mission;
 import umc.spring.domain.common.BaseEntity;
@@ -28,4 +29,18 @@ public class MemberMission extends BaseEntity {
     @JoinColumn(name = "mission_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Mission mission;
+
+    public void setMember(Member member) {
+
+        if (this.member != null) member.getMemberMissionList().remove(this);
+        this.member = member;
+        member.getMemberMissionList().add(this);
+    }
+
+    public void setMission(Mission mission) {
+
+        if (this.mission != null) mission.getMemberMissionList().remove(this);
+        this.mission = mission;
+        mission.getMemberMissionList().add(this);
+    }
 }

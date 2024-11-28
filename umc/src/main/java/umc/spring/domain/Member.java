@@ -2,6 +2,9 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
 import umc.spring.domain.enums.MemberStatus;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicInsert
+@DynamicUpdate
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -38,6 +43,8 @@ public class Member extends BaseEntity {
     @Column(columnDefinition = "VARCHAR(10)")
     private Gender gender;
 
+    private Integer age;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(20)")
     private SocialType socialType;
@@ -54,6 +61,7 @@ public class Member extends BaseEntity {
     @Column(length = 20, unique = true)
     private String phoneNum;
 
+    @ColumnDefault("0")
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

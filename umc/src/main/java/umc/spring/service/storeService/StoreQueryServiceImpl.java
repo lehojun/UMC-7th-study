@@ -32,4 +32,10 @@ public class StoreQueryServiceImpl implements StoreQueryService {
 
         return filteredStores;
     }
+
+    @Override
+    public Boolean existsById(Long id) {
+
+        return storeRepository.existsById(id);
+    }
 }

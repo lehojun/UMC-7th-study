@@ -33,6 +33,10 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
     private List<Review> reviewList = new ArrayList<>();
 
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     @Override
     public String toString() {
         return "Store{" +
