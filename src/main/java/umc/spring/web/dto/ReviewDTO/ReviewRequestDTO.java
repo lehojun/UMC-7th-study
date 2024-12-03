@@ -3,7 +3,6 @@ package umc.spring.web.dto.ReviewDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import umc.spring.validation.annotation.ExistRegion;
 
 public class ReviewRequestDTO {
     @Getter
