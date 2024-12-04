@@ -8,6 +8,8 @@ import umc.spring.web.dto.ReviewDTO.ReviewRequestDTO;
 
 public interface MissionCommandService {
     Mission addMission(MissionRequestDTO.AddDTO request);
-    Page<Mission> getMissionList(Long memberId, Integer page);
+    Page<Mission> getMissionList(Long storeId, Integer page);
+    Page<Mission> getMemberMissionList(Long memberId, Integer page);
+
 
 }

@@ -14,6 +14,10 @@ import umc.spring.domain.Member;
 import umc.spring.domain.Mission;
 import umc.spring.domain.Review;
 import umc.spring.domain.Store;
+import umc.spring.domain.enums.MemberStatus;
+import umc.spring.domain.enums.MissionStatus;
+import umc.spring.domain.mapping.MemberMission;
+import umc.spring.repository.MemberMissionRepository.MemberMissionRepository;
 import umc.spring.repository.MemberRepository.MemberRepository;
 import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.repository.ReviewRepository.ReviewRepository;
@@ -22,11 +26,15 @@ import umc.spring.service.ReviewService.ReviewCommandService;
 import umc.spring.web.dto.MissionDTO.MissionRequestDTO;
 import umc.spring.web.dto.ReviewDTO.ReviewRequestDTO;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MissionCommandServiceImpl implements MissionCommandService {
     private final MissionRepository missionRepository;
     private final StoreRepository storeRepository;
+    private final MemberRepository memberRepository;
+    private final MemberMissionRepository memberMissionRepository;
 
     @Override
     @Transactional
@@ -49,5 +57,13 @@ public class MissionCommandServiceImpl implements MissionCommandService {
                 .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
 
         return missionRepository.findAllByStore(store, PageRequest.of(page-1, 10));
+    }
+
+    @Override
+    public Page<Mission> getMemberMissionList(Long memberId, Integer page) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+
+        return memberMissionRepository.findMissionsByMember(member, MissionStatus.CHALLENGING, PageRequest.of(page-1,10));
     }
 }
