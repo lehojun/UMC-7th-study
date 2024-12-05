@@ -1,5 +1,7 @@
 package umc.spring.repository.regionRepository;
 
-public interface RegionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import umc.spring.domain.Region;
 
+public interface RegionRepository extends JpaRepository<Region, Long> {
 }

@@ -1,24 +1,13 @@
 package umc.spring.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import lombok.*;
+import umc.spring.domain.common.BaseEntity;
+import umc.spring.domain.mapping.MemberMission;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import umc.spring.domain.common.BaseEntity;
-import umc.spring.domain.mapping.MemberMission;
 
 @Entity
 @Getter
@@ -35,6 +24,7 @@ public class Mission extends BaseEntity {
 
   private LocalDate deadline;
 
+  @Column(length = 100)
   private String missionSpec;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -42,5 +32,9 @@ public class Mission extends BaseEntity {
   private Store store;
 
   @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-  private List<MemberMission> memberMissionList = new ArrayList<>();
+  private List<MemberMission> memberMissionList;
+
+  public void setStore(Store store) {
+    this.store = store;
+  }
 }

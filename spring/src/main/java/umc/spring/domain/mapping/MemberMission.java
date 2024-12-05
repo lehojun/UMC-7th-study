@@ -1,25 +1,11 @@
 package umc.spring.domain.mapping;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import umc.spring.domain.FoodCategory;
 import umc.spring.domain.Member;
 import umc.spring.domain.Mission;
 import umc.spring.domain.common.BaseEntity;
-import umc.spring.domain.enums.MemberStatus;
 import umc.spring.domain.enums.MissionStatus;
 
 @Entity
@@ -28,19 +14,33 @@ import umc.spring.domain.enums.MissionStatus;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class MemberMission extends BaseEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Enumerated(EnumType.STRING)
+  private MissionStatus status;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private Member member;
 
-  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "mission_id")
+  @ManyToOne(fetch = FetchType.LAZY)
   private Mission mission;
 
-  @Enumerated(EnumType.STRING)
-  @Column(columnDefinition = "VARCHAR(15) DEFAULT 'INACTIVE'")
-  private MissionStatus status;
+  public void setMember(Member member) {
+
+    if (this.member != null) member.getMemberMissionList().remove(this);
+    this.member = member;
+    member.getMemberMissionList().add(this);
+  }
+
+  public void setMission(Mission mission) {
+
+    if (this.mission != null) mission.getMemberMissionList().remove(this);
+    this.mission = mission;
+    mission.getMemberMissionList().add(this);
+  }
 }

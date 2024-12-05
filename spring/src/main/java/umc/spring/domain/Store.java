@@ -1,9 +1,9 @@
 package umc.spring.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.common.BaseEntity;
 
-import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +18,10 @@ public class Store extends BaseEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(nullable = false, length = 50)
   private String name;
 
+  @Column(length = 100)
   private String address;
 
   private Float score;
@@ -28,11 +30,12 @@ public class Store extends BaseEntity {
   @JoinColumn(name = "region_id")
   private Region region;
 
-  @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-  private List<Mission> missionList = new ArrayList<>();
+  @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+  private List<Review> reviewList;
 
-  @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-  private List<Review> reviewList = new ArrayList<>();
+  public void setRegion(Region region) {
+    this.region = region;
+  }
 
   @Override
   public String toString() {
@@ -41,7 +44,7 @@ public class Store extends BaseEntity {
         ", name='" + name + '\'' +
         ", address='" + address + '\'' +
         ", score=" + score +
-        ", region=" + (region != null ? region.getName() : "N/A") + // region의 이름 출력
+        ", region=" + (region != null ? region.getName() : "N/A") +
         '}';
   }
 }

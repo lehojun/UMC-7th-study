@@ -1,11 +1,14 @@
-//package umc.spring.repository.missionRepository;
-//
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.Pageable;
-//import umc.spring.domain.Mission;
-//import umc.spring.domain.enums.MissionStatus;
-//
-//public interface MissionRepositoryCustom {
-//  Page<Mission> findMissionsByMemberAndStatus(Long memberId, MissionStatus status, Pageable pageable);
-//  Page<Mission> dynamicQueryWithBooleanBuilder(String location, Pageable pageable);
-//}
+package umc.spring.repository.missionRepository;
+
+import com.querydsl.core.Tuple;
+import umc.spring.domain.Mission;
+import umc.spring.domain.enums.MissionStatus;
+
+import java.util.List;
+
+public interface MissionRepositoryCustom {
+
+  List<Mission> findAvailableMissionsByRegion(String regionName, Long memberId, Long cursorId, int limit);
+  List<Tuple> findMissionsByMemberIdAndStatus(Long memberId, Long cursor, int limit, MissionStatus status);
+
+}
