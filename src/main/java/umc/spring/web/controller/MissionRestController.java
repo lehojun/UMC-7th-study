@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import umc.spring.apiPayload.ApiResponse;
 import umc.spring.converter.MemberMissionConverter;
 import umc.spring.converter.MissionConverter;
-import umc.spring.converter.ReviewConverter;
 import umc.spring.domain.Mission;
-import umc.spring.domain.Review;
 import umc.spring.domain.mapping.MemberMission;
 import umc.spring.service.MemberMissionService.MemberMissionCommandService;
 import umc.spring.service.MissionService.MissionCommandService;
@@ -25,7 +23,6 @@ import umc.spring.web.dto.MemberMissionDTO.MemberMissionRequestDTO;
 import umc.spring.web.dto.MemberMissionDTO.MemberMissionResponseDTO;
 import umc.spring.web.dto.MissionDTO.MissionRequestDTO;
 import umc.spring.web.dto.MissionDTO.MissionResponseDTO;
-import umc.spring.web.dto.ReviewDTO.ReviewResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -80,5 +77,22 @@ public class MissionRestController {
         Page<Mission> missionList = missionCommandService.getMemberMissionList(memberId,page);
         return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
     }
+
+    @GetMapping("/memberMission/{memberMissionId}")
+    @Operation(summary = "진행중인 미션 진행 완료로 바꾸기 API",description = "미션의 상태를 완료로 변경하는 API입니다.")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @Parameters({
+            @Parameter(name = "memberMissionId", description = "memberMission 아이디, path variable 입니다!")
+    })
+    public ApiResponse<Boolean> changeMissionStatus(@PathVariable(name = "memberMissionId") Long memberMissionId){
+        memberMissionCommandService.changeMissionStatus(memberMissionId);
+        return ApiResponse.onSuccess(true);
+    }
+
 }
 

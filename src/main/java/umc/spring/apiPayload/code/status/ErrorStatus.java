@@ -38,6 +38,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //MemberMission
     EXIST_MEMBER_MISSION_ID(HttpStatus.BAD_REQUEST, "MEMBER_MISSION4001", "미션이 이미 진행중입니다."),
+    MEMBER_MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_MISSION4002", "memberMission의 id값이 존재하지 않습니다."),
+    MEMBER_MISSION_ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "MEMBER_MISSION4003", "해당 미션은 이미 완료되었습니다."),
 
     //Mission
     MISSION_NOT_FOUND(HttpStatus.BAD_REQUEST,"MISSION4001","미션이 없습니다."),

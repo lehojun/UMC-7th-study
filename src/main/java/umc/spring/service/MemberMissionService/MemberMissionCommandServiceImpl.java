@@ -1,10 +1,12 @@
 package umc.spring.service.MemberMissionService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.apiPayload.exception.handler.MemberHandler;
+import umc.spring.apiPayload.exception.handler.MemberMissionHandler;
 import umc.spring.apiPayload.exception.handler.MissionHandler;
 import umc.spring.converter.MemberMissionConverter;
 import umc.spring.domain.Member;
@@ -15,6 +17,8 @@ import umc.spring.repository.MemberMissionRepository.MemberMissionRepository;
 import umc.spring.repository.MemberRepository.MemberRepository;
 import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.web.dto.MemberMissionDTO.MemberMissionRequestDTO;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,4 +52,18 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
         if(memberMission == null) return MissionStatus.NONE;
         return memberMission.getStatus();
         }
+
+    @Override
+    public MemberMission changeMissionStatus(Long memberMissionId) {
+
+        MemberMission memberMission = memberMissionRepository.findById(memberMissionId)
+                .orElseThrow(() -> new MemberMissionHandler(ErrorStatus.MEMBER_MISSION_NOT_FOUND));
+
+        if(memberMission.getStatus() == MissionStatus.COMPLETE) {
+            throw new MemberMissionHandler(ErrorStatus.MEMBER_MISSION_ALREADY_COMPLETED);
+        }
+
+            memberMission.setStatus(MissionStatus.COMPLETE);
+        return memberMissionRepository.save(memberMission);
     }
+}
