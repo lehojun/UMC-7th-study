@@ -1,6 +1,10 @@
 package umc.spring.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
@@ -21,14 +25,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MemberCommandServiceImpl implements MemberCommandService{
 
+    private static final Logger log = LoggerFactory.getLogger(MemberCommandServiceImpl.class);
     private final MemberRepository memberRepository;
-
     private final FoodCategoryRepository foodCategoryRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     @Transactional
     public Member joinMember(MemberRequestDTO.JoinDto request) {
         Member newMember = MemberConverter.toMember(request);
+        newMember.encodePassWord(passwordEncoder.encode(request.getPassword()));
+
+        log.info("회원가입 요청: {}", request);
+
 
         List<FoodCategory> foodCategoryList = request.getPreferCategory().stream()
                 .map(category -> foodCategoryRepository.findById(category).orElseThrow(() -> new FoodCategoryHandler(ErrorStatus.FOOD_CATEGORY_NOT_FOUND))).collect(Collectors.toList());
@@ -39,5 +49,7 @@ public class MemberCommandServiceImpl implements MemberCommandService{
 
         return memberRepository.save(newMember);
     }
+
+
 
 }

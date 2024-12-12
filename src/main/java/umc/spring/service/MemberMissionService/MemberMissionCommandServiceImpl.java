@@ -18,8 +18,6 @@ import umc.spring.repository.MemberRepository.MemberRepository;
 import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.web.dto.MemberMissionDTO.MemberMissionRequestDTO;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class MemberMissionCommandServiceImpl implements MemberMissionCommandService {

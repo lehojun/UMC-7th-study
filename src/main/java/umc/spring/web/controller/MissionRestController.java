@@ -45,7 +45,8 @@ public class MissionRestController {
         return ApiResponse.onSuccess(MemberMissionConverter.toJoinResultDTO(memberMission));
     }
 
-    @GetMapping("/{storeId}/missions")
+
+    @PostMapping("/{storeId}/missions")
     @Operation(summary = "특정 가게의 미션 목록 조회 API",description = "특정 가게의 미션들의 목록을 조회하는 API이며, 페이징을 포함합니다. query String 으로 page 번호를 주세요")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
@@ -78,6 +79,7 @@ public class MissionRestController {
         return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
     }
 
+
     @GetMapping("/memberMission/{memberMissionId}")
     @Operation(summary = "진행중인 미션 진행 완료로 바꾸기 API",description = "미션의 상태를 완료로 변경하는 API입니다.")
     @ApiResponses({
@@ -93,6 +95,5 @@ public class MissionRestController {
         memberMissionCommandService.changeMissionStatus(memberMissionId);
         return ApiResponse.onSuccess(true);
     }
-
 }
 
