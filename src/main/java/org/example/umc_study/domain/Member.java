@@ -5,10 +5,14 @@ import lombok.*;
 import org.example.umc_study.domain.common.BaseEntity;
 import org.example.umc_study.domain.enums.Gender;
 import org.example.umc_study.domain.enums.MemberStatus;
+import org.example.umc_study.domain.enums.Role;
 import org.example.umc_study.domain.enums.SocialType;
 import org.example.umc_study.domain.mapping.MemberAgree;
 import org.example.umc_study.domain.mapping.MemberMission;
 import org.example.umc_study.domain.mapping.MemberPrefer;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,6 +20,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicUpdate
+@DynamicInsert
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -34,6 +40,15 @@ public class Member extends BaseEntity {
     @Column(nullable = false, length = 40)
     private String specAddress;
 
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -46,9 +61,7 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false)
-    private String email;
-
+    @ColumnDefault("0")
     private Integer point;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -62,4 +75,8 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }
