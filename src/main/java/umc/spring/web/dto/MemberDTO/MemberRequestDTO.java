@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 import umc.spring.domain.enums.Role;
 import umc.spring.validation.annotation.ExistCategories;
 
@@ -13,7 +14,8 @@ import java.util.List;
 public class MemberRequestDTO {
 
     @Getter
-    public static class JoinDto{
+    @Setter
+    public static class JoinDto {
         @NotBlank
         String name;
         @NotBlank
