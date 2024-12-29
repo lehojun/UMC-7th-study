@@ -49,7 +49,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Member saveOrUpdateUser(String email, String nickname) {
-        Member member = memberRepository.findByEmail(email)
+        return memberRepository.findByEmail(email)
                 .orElse(Member.builder()
                         .email(email)
                         .name(nickname)
@@ -60,6 +60,5 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         .role(Role.USER)
                         .build());
 
-        return memberRepository.save(member);
     }
 }

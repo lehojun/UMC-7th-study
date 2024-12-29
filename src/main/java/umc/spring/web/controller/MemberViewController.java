@@ -1,8 +1,6 @@
 package umc.spring.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,23 +14,19 @@ import umc.spring.web.dto.MemberDTO.MemberRequestDTO;
 @RequiredArgsConstructor
 public class MemberViewController {
 
-    private static final Logger log = LoggerFactory.getLogger(MemberViewController.class);
     private final MemberCommandService memberCommandService;
 
     @PostMapping("/members/signup")
     public String joinMember(@ModelAttribute("memberJoinDto") MemberRequestDTO.JoinDto request,
                              BindingResult bindingResult,
                              Model model) {
+        System.out.println(request.getAddress());
         if (bindingResult.hasErrors()) {
-            System.out.println("dlkfasd");
             return "signup";
         }
 
         try {
-            System.out.println("aaaaaa");
-
             memberCommandService.joinMember(request);
-            System.out.println("dddddd");
 
             return "redirect:/login";
         } catch (Exception e) {
